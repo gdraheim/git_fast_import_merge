@@ -39,7 +39,7 @@ COVER = 0
 MERGE = "git_fast_import_merge.py"
 TESTDIR = "tmp"
 COMMITHASH = "[0-9a-h][0-9a-h][0-9a-h][0-9a-h][0-9a-h][0-9a-h][0-9a-h][0-9a-h][0-9a-h][0-9a-h][0-9a-h][0-9a-h][0-9a-h][0-9a-h]"
-TIMEFORMAT = "[1-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9][T.][0-9][0-9]:[0-9][0-9](Z|.*[+-][0-9][0-9])"
+TIMEFORMAT = "[1-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9][T.][0-9][0-9]:[0-9][0-9](:[0-9][0-9])?(Z|.*[+-][0-9][0-9])"
 
 
 def sx__(cmd: str, cwd: Optional[str] = None, shell: bool = True, env: Mapping[str, str] = {"LANG": "C"}, **args: Any) -> str:

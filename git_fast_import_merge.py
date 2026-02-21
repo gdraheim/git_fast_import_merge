@@ -112,6 +112,13 @@ def time_from(spec: str) -> Optional[Time]:
         return time.astimezone(plus)
     m = re.match(
         " *(\\d\\d\\d\\d)-(\\d\\d)-(\\d\\d)"
+        "[T.](\\d\\d):(\\d\\d):(\\d\\d)Z *$", spec)
+    if m:
+        return Time(int(m.group(1)), int(m.group(2)), int(m.group(3)),
+                    int(m.group(4)), int(m.group(5)), int(m.group(6)),
+                    tzinfo=TimeZone.utc)
+    m = re.match(
+        " *(\\d\\d\\d\\d)-(\\d\\d)-(\\d\\d)"
         "[T.](\\d\\d):(\\d\\d):(\\d\\d) *"
         "([+-]\\d\\d):?(\\d\\d) *$", spec)
     if m:
