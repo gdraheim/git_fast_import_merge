@@ -1,0 +1,5 @@
+check-types:
+  image: $CI_REGISTRY/gdraheim/ci_image_python3
+  script:
+     - make type
+     
