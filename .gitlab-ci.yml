@@ -22,5 +22,6 @@ python3-coverage:
         coverage_format: cobertura
         path: tmp/coverage.xml
   rules:
-    - when: manual
+    - when: on_success
+    
 
