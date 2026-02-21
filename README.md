@@ -1,5 +1,4 @@
-[![Style Check](https://github.com/gdraheim/git_fast_import_merge/actions/workflows/stylecheck.yml/badge.svg?event=push&branch=main)](https://github.com/gdraheim/git_fast_import_merge/actions/workflows/stylecheck.yml)
-[![Type Check](https://github.com/gdraheim/git_fast_import_merge/actions/workflows/typecheck.yml/badge.svg?event=push&branch=main)](https://github.com/gdraheim/git_fast_import_merge/actions/workflows/typecheck.yml)
+[![Gitlab Status](https://gitlab.com/gdraheim/git_fast_import_merge/badges/pipeline.svg)](https://gitlab.com/gdraheim/git_fast_import_merge)
 [![Code Coverage](https://img.shields.io/badge/29%20tests-92%25%20coverage-brightgreen)](https://github.com/gdraheim/git_fast_import_merge/blob/main/git_fast_import_merge.tests.py)
 [![PyPI version](https://badge.fury.io/py/git_fast_import_merge.svg)](https://pypi.org/project/git_fast_import_merge/)
 
