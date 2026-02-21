@@ -15,11 +15,12 @@ python3-coverage:
   image: $CI_REGISTRY/gdraheim/ci_image_python3
   script:
     - make coverage
+    - find . -name '*.xml'
   artifacts:
     reports:
       coverage_report:
         coverage_format: cobertura
-        path: coverage.xml
+        path: tmp/coverage.xml
   rules:
     - when: manual
 

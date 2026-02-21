@@ -1,4 +1,6 @@
 #! /usr/bin/env python3
+# pylint: disable=unused-variable,f-string-without-interpolation,missing-class-docstring,missing-function-docstring,invalid-name,consider-using-f-string,too-many-lines,line-too-long,multiple-statements
+# pylint: disable=redefined-outer-name,broad-exception-caught,dangerous-default-value,unused-variable,redefined-builtin,bare-except,unspecified-encoding,missing-module-docstring
 
 __copyright__ = "(C) 2023-2024 Guido Draheim, licensed under the Apache License 2.0"""
 __version__ = "1.0.1321"
@@ -7,9 +9,9 @@ from typing import Optional, Any, List, Union, Iterator, NamedTuple, Mapping, Di
 
 from subprocess import check_output, Popen, PIPE, CalledProcessError
 from unittest import TestCase, TestSuite, TextTestRunner
+import os
 import os.path as fs
 import shutil
-import os
 import sys
 import re
 import inspect
@@ -2717,7 +2719,7 @@ class ImportMergeTest(TestCase):
 
 if __name__ == "__main__":
     # unittest.main()
-    from optparse import OptionParser
+    from optparse import OptionParser # pylint: disable=deprecated-module
     cmdline = OptionParser("%s test...")
     cmdline.add_option("-v", "--verbose", action="count",
                        default=0, help="more verbose logging")
@@ -2770,7 +2772,7 @@ if __name__ == "__main__":
             os.remove(opt.xmlresults)
         xmlresults = open(opt.xmlresults, "wb")
     if xmlresults:
-        import xmlrunner  # type: ignore[import]
+        import xmlrunner  # type: ignore[import-untyped]
         Runner = xmlrunner.XMLTestRunner
         result = Runner(xmlresults).run(suite)
         logg.info(" XML reports written to %s", opt.xmlresults)
