@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 # pylint: disable=missing-class-docstring,missing-function-docstring,line-too-long,consider-using-f-string
-# pylint: disable=possibly-used-before-assignment,unspecified-encoding,global-statement
+# pylint: disable=unspecified-encoding,global-statement
 """:
 use multiple archive files from 'git fast-export' and merge them into a single
 archive file for 'git fast-import' ordering the changes by date. Optionally,
@@ -44,6 +44,8 @@ SKIPSUBJECT: List[str] = []
 SKIPAUTHORS: List[str] = []
 REPLACEAUTHORS: List[str] = []
 
+BRANCH="main"
+OUTPUT=""
 
 class Fromfile(NamedTuple):
     mark: str
@@ -563,9 +565,9 @@ if __name__ == "__main__":
                        help="defaults to author from ~/.gitconfig")
     cmdline.add_option("-m", "--merges", action="store_true", default=False,
                        help="generate merges for different inputs")
-    cmdline.add_option("-b", "--branch", metavar="file", default="main",
+    cmdline.add_option("-b", "--branch", metavar="file", default=BRANCH,
                        help="generate import to this branch (main)")
-    cmdline.add_option("-o", "--output", metavar="file", default="",
+    cmdline.add_option("-o", "--output", metavar="file", default=OUTPUT,
                        help="generate into file instead of stdout")
     opt, args = cmdline.parse_args()
     basicConfig(level=max(0, WARNING - 5 * opt.verbose + 10 * opt.quiet))

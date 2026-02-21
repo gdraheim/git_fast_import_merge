@@ -2351,8 +2351,7 @@ class ImportMergeTest(TestCase):
         std = sh(F"{cover} {merge} A.fi B2.fi -o N2.fi --merge --into=N", cwd=tmp)
         self.assertTrue(greplines(std.out, ""))
         catN2 = sh_cat(F"N2.fi", cwd=tmp)
-        logg.warning("catN2\n%s", catN2.out)
-        logg.warning("catN2 = %s", greplines(catN2.out, "hello-A", "hello-B"))
+        logg.debug("catN2 = %s", greplines(catN2.out, "hello-A", "hello-B"))
         self.assertFalse(greplines(catN2.out, "hello-A", "hello-B"))  # skipped old patches
         self.assertFalse(greplines(catN2.out, "merge :"))  # and 'updated' has no merge
         #
@@ -2681,7 +2680,7 @@ class ImportMergeTest(TestCase):
         self.assertTrue(greplines(std.out, COMMITHASH))
         head = std.out.strip()
         std = sh(F"{git} show -s --format=%cI HEAD", cwd=N)
-        logg.warning("show -s\n%s", std.out)
+        logg.debug("show -s\n%s", std.out)
         self.assertTrue(greplines(std.out, TIMEFORMAT))
         date = std.out.strip()
         std = sh(F"{cover} {merge} A.fi B2.fi -o N2.fi --merge --head={head} --date={date}", cwd=tmp)
