@@ -7,3 +7,5 @@ dist
 setup.py
 *,cover
 __pycache__
+coverage.xml
+TEST-*.xml

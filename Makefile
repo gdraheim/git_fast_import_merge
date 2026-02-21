@@ -21,12 +21,16 @@ check:
 checkcode cc:
 	$(PYTHON3) _checkcode.py $(SCRIPT) $(TESTS)
 
-test: ; $(PYTHON3) $(TESTS) $V
+teststage: ; $(PYTHON3) $(TESTS) $V --showgraph --xmlresults=TEST-teststage.xml
 tests: ; $(PYTHON3) $(TESTS) $V --showgraph
+test: ; $(PYTHON3) $(TESTS) $V
 test_%: ; $(PYTHON3) $(TESTS) --failfast --showgraph $V $@ 
 t_%: ; $(PYTHON3) $(TESTS) --failfast --showgraph $V tes$@ 
 
-cover coverage: ; $(PYTHON3) $(TESTS) $V --cover
+cover: ; $(PYTHON3) $(TESTS) $V --cover
+coverage:
+	$(MAKE) cover
+	cd tmp && $(PYTHON3) -m coverage xml -o coverage.xml
 
 clean:
 	- rm *.pyc 

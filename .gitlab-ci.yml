@@ -1,11 +1,25 @@
-python3-checks:
+python3-tests:
+  stage: deploy
   image: $CI_REGISTRY/gdraheim/ci_image_python3
   script:
     - make style || true
     - make type
-    - make tests
+    - make teststage
     - find . -name '*.xml'
   artifacts:
     reports:
       junit: "*/TEST-*.xml"
+
+python3-coverage:
+  stage: deploy
+  image: $CI_REGISTRY/gdraheim/ci_image_python3
+  script:
+    - make coverage
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
+  rules:
+    - when: manual
 
