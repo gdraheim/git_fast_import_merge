@@ -1,7 +1,7 @@
 python3-checks:
   image: $CI_REGISTRY/gdraheim/ci_image_python3
   script:
-    - make pep8 || true
+    - make style || true
     - make type
     - make tests
     - find . -name '*.xml'
