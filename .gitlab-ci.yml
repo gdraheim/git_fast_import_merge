@@ -22,9 +22,9 @@ python3-coverage:
         coverage_format: cobertura
         path: tmp/coverage.xml
   rules:
-    - if: CI_PIPELINE_SOURCE = "merge_request_event"
+    - if: CI_PIPELINE_SOURCE == "merge_request_event"
       when: on_success
     - when: manual
-    
+
 
 
