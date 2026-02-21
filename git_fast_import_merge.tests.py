@@ -34,7 +34,6 @@ NIX = ""
 GIT = "git"
 RUN = "--no-pager"
 PYTHON = "python3"
-COVERAGE = "coverage3"
 COVER = 0
 MERGE = "git_fast_import_merge.py"
 TESTDIR = "tmp"
@@ -245,10 +244,11 @@ class ImportMergeTest(TestCase):
             else:
                 logg.log(TMP, "================ KEEP %s", newdir)
         return newdir
-
+    def cover() -> str:
+        return F"{PYTHON} -m coverage run" if COVER else F"{PYTHON}"
     def test_010(self) -> None:
         tmp = self.testdir()
-        cover = F"{COVERAGE} run" if COVER else F"{PYTHON}"
+        cover = self.cover()
         tests = __file__.replace(".tests.py", ".test.py")
         execs = fs.relpath(tests, tmp)
         std = sh(F"{cover} {execs} -v time_from", cwd=tmp)
@@ -256,7 +256,7 @@ class ImportMergeTest(TestCase):
         self.rm_testdir()
     def test_020(self) -> None:
         tmp = self.testdir()
-        cover = F"{COVERAGE} run" if COVER else F"{PYTHON}"
+        cover = self.cover()
         tests = __file__.replace(".tests.py", ".test.py")
         execs = fs.relpath(tests, tmp)
         std = sh(F"{cover} {execs} -v commit_from", cwd=tmp)
@@ -314,7 +314,7 @@ class ImportMergeTest(TestCase):
         self.assertTrue(greplines(std.out, ""))
         #
         merge = fs.relpath(MERGE, tmp)
-        cover = F"{COVERAGE} run" if COVER else F"{PYTHON}"
+        cover = self.cover()
         std = sh(F"{cover} {merge} A.fi B.fi -o N.fi", cwd=tmp)
         self.assertTrue(greplines(std.out, ""))
         catN = sh_cat(F"N.fi", cwd=tmp)
@@ -396,7 +396,7 @@ class ImportMergeTest(TestCase):
         self.assertTrue(greplines(std.out, ""))
         #
         merge = fs.relpath(MERGE, tmp)
-        cover = F"{COVERAGE} run" if COVER else F"{PYTHON}"
+        cover = self.cover()
         std = sh(F"{cover} {merge} A.fi B.fi -o N.fi", cwd=tmp)
         self.assertTrue(greplines(std.out, ""))
         catN = sh_cat(F"N.fi", cwd=tmp)
@@ -480,7 +480,7 @@ class ImportMergeTest(TestCase):
         self.assertTrue(greplines(std.out, ""))
         #
         merge = fs.relpath(MERGE, tmp)
-        cover = F"{COVERAGE} run" if COVER else F"{PYTHON}"
+        cover = self.cover()
         std = sh(F"{cover} {merge} A.fi B.fi -o N.fi --merge", cwd=tmp)
         self.assertTrue(greplines(std.out, ""))
         catN = sh_cat(F"N.fi", cwd=tmp)
@@ -563,7 +563,7 @@ class ImportMergeTest(TestCase):
         self.assertTrue(greplines(std.out, ""))
         #
         merge = fs.relpath(MERGE, tmp)
-        cover = F"{COVERAGE} run" if COVER else F"{PYTHON}"
+        cover = self.cover()
         std = sh(F"{cover} {merge} A.fi B.fi -o N.fi --merge --subdir travel", cwd=tmp)
         self.assertTrue(greplines(std.out, ""))
         catN = sh_cat(F"N.fi", cwd=tmp)
@@ -646,7 +646,7 @@ class ImportMergeTest(TestCase):
         self.assertTrue(greplines(std.out, ""))
         #
         merge = fs.relpath(MERGE, tmp)
-        cover = F"{COVERAGE} run" if COVER else F"{PYTHON}"
+        cover = self.cover()
         std = sh(F"{cover} {merge} A.fi B.fi -o N.fi --replaceauthor 'Mr.B=Mrs.B <user@B>'", cwd=tmp)
         self.assertTrue(greplines(std.out, ""))
         catN = sh_cat(F"N.fi", cwd=tmp)
@@ -730,7 +730,7 @@ class ImportMergeTest(TestCase):
         self.assertTrue(greplines(std.out, ""))
         #
         merge = fs.relpath(MERGE, tmp)
-        cover = F"{COVERAGE} run" if COVER else F"{PYTHON}"
+        cover = self.cover()
         std = sh(F"{cover} {merge} A.fi B.fi -o N.fi --skipauthor=Mr.B", cwd=tmp)
         self.assertTrue(greplines(std.out, ""))
         catN = sh_cat(F"N.fi", cwd=tmp)
@@ -815,7 +815,7 @@ class ImportMergeTest(TestCase):
         self.assertTrue(greplines(std.out, ""))
         #
         merge = fs.relpath(MERGE, tmp)
-        cover = F"{COVERAGE} run" if COVER else F"{PYTHON}"
+        cover = self.cover()
         std = sh(F"{cover} {merge} A.fi B.fi -o N.fi --skipauthor=Mr.B --merge", cwd=tmp)
         self.assertTrue(greplines(std.out, ""))
         catN = sh_cat(F"N.fi", cwd=tmp)
@@ -899,7 +899,7 @@ class ImportMergeTest(TestCase):
         self.assertTrue(greplines(std.out, ""))
         #
         merge = fs.relpath(MERGE, tmp)
-        cover = F"{COVERAGE} run" if COVER else F"{PYTHON}"
+        cover = self.cover()
         std = sh(F"{cover} {merge} A.fi B.fi -o N.fi --skipsubject=hello-B --merge", cwd=tmp)
         self.assertTrue(greplines(std.out, ""))
         catN = sh_cat(F"N.fi", cwd=tmp)
@@ -983,7 +983,7 @@ class ImportMergeTest(TestCase):
         self.assertTrue(greplines(std.out, ""))
         #
         merge = fs.relpath(MERGE, tmp)
-        cover = F"{COVERAGE} run" if COVER else F"{PYTHON}"
+        cover = self.cover()
         std = sh(F"{cover} {merge} A.fi B.fi -o N.fi --skipsubject=again --merge", cwd=tmp)
         self.assertTrue(greplines(std.out, ""))
         catN = sh_cat(F"N.fi", cwd=tmp)
@@ -1063,7 +1063,7 @@ class ImportMergeTest(TestCase):
         self.assertTrue(greplines(std.out, "main .* license"))
         #
         merge = fs.relpath(MERGE, tmp)
-        cover = F"{COVERAGE} run" if COVER else F"{PYTHON}"
+        cover = self.cover()
         std = sh(F"{git} rev-parse HEAD", cwd=N)
         self.assertTrue(greplines(std.out, COMMITHASH))
         head = std.out.strip()
@@ -1153,7 +1153,7 @@ class ImportMergeTest(TestCase):
         self.assertTrue(greplines(std.out, "main .* license"))
         #
         merge = fs.relpath(MERGE, tmp)
-        cover = F"{COVERAGE} run" if COVER else F"{PYTHON}"
+        cover = self.cover()
         std = sh(F"{git} rev-parse HEAD", cwd=N)
         self.assertTrue(greplines(std.out, COMMITHASH))
         head = std.out.strip()
@@ -1247,7 +1247,7 @@ class ImportMergeTest(TestCase):
         self.assertTrue(greplines(std.out, "main .* license"))
         #
         merge = fs.relpath(MERGE, tmp)
-        cover = F"{COVERAGE} run" if COVER else F"{PYTHON}"
+        cover = self.cover()
         std = sh(F"{git} rev-parse HEAD", cwd=N)
         self.assertTrue(greplines(std.out, COMMITHASH))
         head = std.out.strip()
@@ -1341,7 +1341,7 @@ class ImportMergeTest(TestCase):
         self.assertTrue(greplines(std.out, "main .* license"))
         #
         merge = fs.relpath(MERGE, tmp)
-        cover = F"{COVERAGE} run" if COVER else F"{PYTHON}"
+        cover = self.cover()
         std = sh(F"{git} rev-parse HEAD", cwd=N)
         self.assertTrue(greplines(std.out, COMMITHASH))
         head = std.out.strip()
@@ -1434,7 +1434,7 @@ class ImportMergeTest(TestCase):
         self.assertTrue(greplines(std.out, "main .* license"))
         #
         merge = fs.relpath(MERGE, tmp)
-        cover = F"{COVERAGE} run" if COVER else F"{PYTHON}"
+        cover = self.cover()
         std = sh(F"{git} rev-parse HEAD", cwd=N)
         self.assertTrue(greplines(std.out, COMMITHASH))
         head = std.out.strip()
@@ -1529,7 +1529,7 @@ class ImportMergeTest(TestCase):
         self.assertTrue(greplines(std.out, "main .* license"))
         #
         merge = fs.relpath(MERGE, tmp)
-        cover = F"{COVERAGE} run" if COVER else F"{PYTHON}"
+        cover = self.cover()
         std = sh(F"{git} rev-parse HEAD", cwd=N)
         self.assertTrue(greplines(std.out, COMMITHASH))
         head = std.out.strip()
@@ -1624,7 +1624,7 @@ class ImportMergeTest(TestCase):
         self.assertTrue(greplines(std.out, "main .* license"))
         #
         merge = fs.relpath(MERGE, tmp)
-        cover = F"{COVERAGE} run" if COVER else F"{PYTHON}"
+        cover = self.cover()
         std = sh(F"{git} rev-parse HEAD", cwd=N)
         self.assertTrue(greplines(std.out, COMMITHASH))
         head = std.out.strip()
@@ -1718,7 +1718,7 @@ class ImportMergeTest(TestCase):
         self.assertTrue(greplines(std.out, "main .* license"))
         #
         merge = fs.relpath(MERGE, tmp)
-        cover = F"{COVERAGE} run" if COVER else F"{PYTHON}"
+        cover = self.cover()
         std = sh(F"{git} rev-parse HEAD", cwd=N)
         self.assertTrue(greplines(std.out, COMMITHASH))
         head = std.out.strip()
@@ -1812,7 +1812,7 @@ class ImportMergeTest(TestCase):
         self.assertTrue(greplines(std.out, "main .* license"))
         #
         merge = fs.relpath(MERGE, tmp)
-        cover = F"{COVERAGE} run" if COVER else F"{PYTHON}"
+        cover = self.cover()
         std = sh(F"{git} rev-parse HEAD", cwd=N)
         self.assertTrue(greplines(std.out, COMMITHASH))
         head = std.out.strip()
@@ -1919,7 +1919,7 @@ class ImportMergeTest(TestCase):
         self.assertTrue(greplines(std.out, ""))
         #
         merge = fs.relpath(MERGE, tmp)
-        cover = F"{COVERAGE} run" if COVER else F"{PYTHON}"
+        cover = self.cover()
         std = sh(F"{cover} {merge} A.fi B.fi C.fi -o N.fi", cwd=tmp)
         self.assertTrue(greplines(std.out, ""))
         catN = sh_cat(F"N.fi", cwd=tmp)
@@ -2021,7 +2021,7 @@ class ImportMergeTest(TestCase):
         self.assertTrue(greplines(std.out, ""))
         #
         merge = fs.relpath(MERGE, tmp)
-        cover = F"{COVERAGE} run" if COVER else F"{PYTHON}"
+        cover = self.cover()
         std = sh(F"{cover} {merge} A.fi B.fi C.fi -o N.fi --merge", cwd=tmp)
         self.assertTrue(greplines(std.out, ""))
         catN = sh_cat(F"N.fi", cwd=tmp)
@@ -2125,7 +2125,7 @@ class ImportMergeTest(TestCase):
         std = sh(F"echo 'skipauthor=Mr.A' > merge.opt", cwd=tmp)
         #
         merge = fs.relpath(MERGE, tmp)
-        cover = F"{COVERAGE} run" if COVER else F"{PYTHON}"
+        cover = self.cover()
         std = sh(F"{cover} {merge} A.fi B.fi C.fi -o N.fi --merge -@ merge.opt", cwd=tmp)
         self.assertTrue(greplines(std.out, ""))
         catN = sh_cat(F"N.fi", cwd=tmp)
@@ -2232,7 +2232,7 @@ class ImportMergeTest(TestCase):
         std = sh(F"echo 'skipauthor=Mr.C' >> merge.opt", cwd=tmp)
         #
         merge = fs.relpath(MERGE, tmp)
-        cover = F"{COVERAGE} run" if COVER else F"{PYTHON}"
+        cover = self.cover()
         std = sh(F"{cover} {merge} A.fi B.fi C.fi -o N.fi --merge -@ merge.opt", cwd=tmp)
         self.assertTrue(greplines(std.out, ""))
         catN = sh_cat(F"N.fi", cwd=tmp)
@@ -2318,7 +2318,7 @@ class ImportMergeTest(TestCase):
         self.assertTrue(greplines(std.out, ""))
         #
         merge = fs.relpath(MERGE, tmp)
-        cover = F"{COVERAGE} run" if COVER else F"{PYTHON}"
+        cover = self.cover()
         std = sh(F"{cover} {merge} A.fi B.fi -o N.fi --merge", cwd=tmp)
         self.assertTrue(greplines(std.out, ""))
         catN = sh_cat(F"N.fi", cwd=tmp)
@@ -2431,7 +2431,7 @@ class ImportMergeTest(TestCase):
         self.assertTrue(greplines(std.out, ""))
         #
         merge = fs.relpath(MERGE, tmp)
-        cover = F"{COVERAGE} run" if COVER else F"{PYTHON}"
+        cover = self.cover()
         std = sh(F"{cover} {merge} A.fi B.fi -o N.fi --merge", cwd=tmp)
         self.assertTrue(greplines(std.out, ""))
         catN = sh_cat(F"N.fi", cwd=tmp)
@@ -2536,7 +2536,7 @@ class ImportMergeTest(TestCase):
         self.assertTrue(greplines(std.out, ""))
         #
         merge = fs.relpath(MERGE, tmp)
-        cover = F"{COVERAGE} run" if COVER else F"{PYTHON}"
+        cover = self.cover()
         std = sh(F"{cover} {merge} A.fi B.fi -o N.fi --merge --historyfile=N.log", cwd=tmp)
         self.assertTrue(greplines(std.out, ""))
         catN = sh_cat(F"N.fi", cwd=tmp)
@@ -2647,7 +2647,7 @@ class ImportMergeTest(TestCase):
         self.assertTrue(greplines(std.out, ""))
         #
         merge = fs.relpath(MERGE, tmp)
-        cover = F"{COVERAGE} run" if COVER else F"{PYTHON}"
+        cover = self.cover()
         std = sh(F"{cover} {merge} A.fi B.fi -o N.fi --merge", cwd=tmp)
         self.assertTrue(greplines(std.out, ""))
         catN = sh_cat(F"N.fi", cwd=tmp)
@@ -2725,7 +2725,6 @@ if __name__ == "__main__":
     cmdline.add_option("--script1", metavar=MERGE)
     cmdline.add_option("--git", metavar=GIT)
     cmdline.add_option("--python", metavar=PYTHON, default=PYTHON)
-    cmdline.add_option("--coverage", metavar=COVERAGE, default=COVERAGE)
     cmdline.add_option("-C", "--cover", action="count", default=0,
                        help="make {script},cover [%default]")
     cmdline.add_option("-k", "--keep", action="count",
@@ -2744,7 +2743,6 @@ if __name__ == "__main__":
     MERGE = opt.script1 or MERGE
     GIT = opt.git or GIT
     PYTHON = opt.python or PYTHON
-    COVERAGE = opt.coverage or COVERAGE
     COVER = opt.cover
     #
     if not args:

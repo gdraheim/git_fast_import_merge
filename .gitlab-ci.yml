@@ -1,5 +1,5 @@
 python3-tests:
-  stage: deploy
+  stage: test
   image: $CI_REGISTRY/gdraheim/ci_image_python3
   script:
     - make style || true
@@ -8,7 +8,7 @@ python3-tests:
     - find . -name '*.xml'
   artifacts:
     reports:
-      junit: "*/TEST-*.xml"
+      junit: "TEST-*.xml"
 
 python3-coverage:
   stage: deploy
