@@ -39,7 +39,7 @@ COVER = 0
 MERGE = "git_fast_import_merge.py"
 TESTDIR = "tmp"
 COMMITHASH = "[0-9a-h][0-9a-h][0-9a-h][0-9a-h][0-9a-h][0-9a-h][0-9a-h][0-9a-h][0-9a-h][0-9a-h][0-9a-h][0-9a-h][0-9a-h][0-9a-h]"
-TIMEFORMAT = "[1-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9][T.][0-9][0-9]:[0-9][0-9].*[+-][0-9][0-9]"
+TIMEFORMAT = "[1-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9][T.][0-9][0-9]:[0-9][0-9](Z|.*[+-][0-9][0-9])"
 
 
 def sx__(cmd: str, cwd: Optional[str] = None, shell: bool = True, env: Mapping[str, str] = {"LANG": "C"}, **args: Any) -> str:
@@ -2350,6 +2350,7 @@ class ImportMergeTest(TestCase):
         self.assertTrue(greplines(std.out, ""))
         catN2 = sh_cat(F"N2.fi", cwd=tmp)
         logg.warning("catN2\n%s", catN2.out)
+        logg.warning("catN2 = %s", greplines(catN2.out, "hello-A", "hello-B"))
         self.assertFalse(greplines(catN2.out, "hello-A", "hello-B"))  # skipped old patches
         self.assertFalse(greplines(catN2.out, "merge :"))  # and 'updated' has no merge
         #
