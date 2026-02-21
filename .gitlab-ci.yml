@@ -1,5 +1,11 @@
-check-types:
+python3-checks:
   image: $CI_REGISTRY/gdraheim/ci_image_python3
   script:
-     - make type
-     
+    - make pep8 || true
+    - make type
+    - make tests
+    - find . -name '*.xml'
+  artifacts:
+    reports:
+      junit: "*/TEST-*.xml"
+

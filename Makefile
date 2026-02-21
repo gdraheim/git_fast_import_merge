@@ -3,7 +3,7 @@ PYTHON3=python3
 PYTHON=$(PYTHON3)
 TWINE=twine
 GIT = git
-PYTHONVERSION = 3.8
+PYTHONVERSION = 3.9
 COVERAGE3 = $(PYTHON3) -m coverage
 TESTS=$(SCRIPT:.py=.tests.py)
 V=-v
