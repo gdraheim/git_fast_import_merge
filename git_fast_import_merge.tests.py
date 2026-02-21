@@ -244,7 +244,7 @@ class ImportMergeTest(TestCase):
             else:
                 logg.log(TMP, "================ KEEP %s", newdir)
         return newdir
-    def cover() -> str:
+    def cover(self) -> str:
         return F"{PYTHON} -m coverage run" if COVER else F"{PYTHON}"
     def test_010(self) -> None:
         tmp = self.testdir()
@@ -2709,9 +2709,10 @@ class ImportMergeTest(TestCase):
     def test_999(self) -> None:
         if not COVER: self.skipTest("no --cover enabled")
         merge = fs.relpath(MERGE, TESTDIR)
-        std = sh(F"{COVERAGE} combine *.coverage", cwd=TESTDIR)
-        std = sh(F"{COVERAGE} annotate {merge}", cwd=TESTDIR)
-        std = sh(F"{COVERAGE} report {merge}", cwd=TESTDIR)
+        coverage = F"{PYTHON} -m coverage"
+        std = sh(F"{coverage} combine *.coverage", cwd=TESTDIR)
+        std = sh(F"{coverage} annotate {merge}", cwd=TESTDIR)
+        std = sh(F"{coverage} report {merge}", cwd=TESTDIR)
         print(std.out)
 
 if __name__ == "__main__":
