@@ -1,4 +1,6 @@
 #! /usr/bin/python3
+# pylint: disable=missing-class-docstring,missing-function-docstring,line-too-long,consider-using-f-string
+# pylint: disable=possibly-used-before-assignment,unspecified-encoding,global-statement
 """:
 use multiple archive files from 'git fast-export' and merge them into a single
 archive file for 'git fast-import' ordering the changes by date. Optionally,
@@ -281,8 +283,7 @@ def run(files: List[str]) -> None:
             for change in commit.changes:
                 filemarks.update(filemarks_from(change))
                 numchanges += 1
-            for filemark in filemarks:
-                filename = filemarks[filemark]
+            for filemark, filename in filemarks.items():
                 lookup = frommark + filemark
                 if lookup in blobmap:
                     blob = blobmap[lookup]
@@ -530,7 +531,7 @@ def git_fast_import(repo: str, fastimport: str) -> str:
 if __name__ == "__main__":
     XDG_CONFIG_HOME = os.environ.get("XDG_CONFIG_HOME", "~/.config")
     OPT = fs.join(XDG_CONFIG_HOME, fs.basename(__file__).replace(".py", ".append.opt"))
-    from optparse import OptionParser
+    from optparse import OptionParser # pylint: disable=deprecated-module # not anymore
     cmdline = OptionParser("%prog [files.fi ..]", description=__doc__)
     cmdline.formatter.max_help_position = 33
     cmdline.add_option("-v", "--verbose", action="count", default=0,
