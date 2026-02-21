@@ -78,8 +78,7 @@ setup.py: Makefile
 setup.py.tmp: Makefile
 	echo "import setuptools ; setuptools.setup()" > setup.py
 
-.PHONY: build
-build:
+pkg package:
 	rm -rf build dist *.egg-info
 	$(MAKE) $(PARALLEL) README setup.py
 	# pip install --root=~/local . -v
