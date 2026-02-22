@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 
-__copyright__ = "(C) 2023-2024 Guido Draheim, licensed under the Apache License 2.0"""
-__version__ = "1.1.1321"
+__copyright__ = "(C) 2023-2026 Guido Draheim, licensed under the Apache License 2.0"""
+__version__ = "1.1.3077"
 
 from unittest import main, TestCase
 from src import git_fast_import_merge as app

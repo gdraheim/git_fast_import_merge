@@ -2,8 +2,8 @@
 # pylint: disable=unused-variable,f-string-without-interpolation,missing-class-docstring,missing-function-docstring,invalid-name,consider-using-f-string,too-many-lines,line-too-long,multiple-statements
 # pylint: disable=redefined-outer-name,broad-exception-caught,dangerous-default-value,unused-variable,redefined-builtin,bare-except,unspecified-encoding,missing-module-docstring
 
-__copyright__ = "(C) 2023-2024 Guido Draheim, licensed under the Apache License 2.0"""
-__version__ = "1.1.1321"
+__copyright__ = "(C) 2023-2026 Guido Draheim, licensed under the Apache License 2.0"""
+__version__ = "1.1.3077"
 
 from typing import Optional, Any, List, Union, Iterator, NamedTuple, Mapping, Dict
 

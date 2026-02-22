@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "git_fast_import_merge"
-version = "1.1.1321"
+version = "1.1.3077"
 description = "Offline merge for git fast-import files"
 readme = { "file" = "README", content-type = "text/markdown" }
 license = "Apache-2.0"

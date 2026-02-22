@@ -9,8 +9,8 @@ the output archive file which makes for a history as coming from multiple branch
 - (but no actual parallel development please)."""
 
 
-__copyright__ = "(C) 2023-2024 Guido Draheim, licensed under the Apache License 2.0"""
-__version__ = "1.1.1321"
+__copyright__ = "(C) 2023-2026 Guido Draheim, licensed under the Apache License 2.0"""
+__version__ = "1.1.3077"
 
 from typing import List, NamedTuple, Optional, Dict
 from logging import getLogger, basicConfig, addLevelName, ERROR, WARNING, INFO, DEBUG
