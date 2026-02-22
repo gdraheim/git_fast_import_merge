@@ -44,8 +44,9 @@ SKIPSUBJECT: List[str] = []
 SKIPAUTHORS: List[str] = []
 REPLACEAUTHORS: List[str] = []
 
-BRANCH="main"
-OUTPUT=""
+BRANCH = "main"
+OUTPUT = ""
+
 
 class Fromfile(NamedTuple):
     mark: str
@@ -534,7 +535,7 @@ def _main_() -> int:
     global HEAD, DATE, SUBDIR, MERGES, BRANCH, OUTPUT, REPLACEAUTHORS, SKIPAUTHORS, SKIPSUBJECT, COMMITTER
     XDG_CONFIG_HOME = os.environ.get("XDG_CONFIG_HOME", "~/.config")
     OPT = fs.join(XDG_CONFIG_HOME, fs.basename(__file__).replace(".py", ".append.opt"))
-    from optparse import OptionParser # pylint: disable=deprecated-module,import-outside-toplevel # not anymore
+    from optparse import OptionParser  # pylint: disable=deprecated-module,import-outside-toplevel # not anymore
     cmdline = OptionParser("%prog [files.fi ..]", description=__doc__)
     cmdline.formatter.max_help_position = 33
     cmdline.add_option("-v", "--verbose", action="count", default=0,
@@ -616,6 +617,6 @@ def _main_() -> int:
                          hist.timespec, hist.comment)
     return 0
 
+
 if __name__ == "__main__":
     sys.exit(_main_())
-    

@@ -140,6 +140,7 @@ mypy:
 MYPY = mypy
 MYPY_STRICT = --strict --show-error-codes --show-error-context --no-warn-unused-ignores --python-version $(PYTHONVERSION) --implicit-reexport
 AUTOPEP8=autopep8
+AUTOPEP8_OPTIONS = --max-line-length 188
 AUTOPEP8_INPLACE= --in-place
 
 %.type: ; $(MYPY) $(MYPY_STRICT) $(MYPY_OPTIONS) $(@:.type=)

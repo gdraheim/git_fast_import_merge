@@ -180,6 +180,7 @@ def greplines(lines: Union[str, List[str]], *pattern: str) -> List[str]:
     logg.debug("[?]=> %s", eachline)
     return []
 
+
 def loadworkspace(workspace: str, keeplinebreaks: bool = False) -> Dict[str, List[str]]:
     files: Dict[str, List[str]] = {}
     for dirpath, dirnames, filenames in os.walk(workspace):
@@ -194,6 +195,7 @@ def loadworkspace(workspace: str, keeplinebreaks: bool = False) -> Dict[str, Lis
             info = files[workname] if len(text) < 30 else ["%s bytes" % len(text)]
             logg.log(EXEC, "  wc '%s': %s", workname, info)
     return files
+
 
 def get_caller_name() -> str:
     frame = inspect.currentframe().f_back.f_back  # type: ignore
@@ -246,8 +248,10 @@ class ImportMergeTest(TestCase):
             else:
                 logg.log(TMP, "================ KEEP %s", newdir)
         return newdir
+
     def cover(self) -> str:
         return F"{PYTHON} -m coverage run" if COVER else F"{PYTHON}"
+
     def test_010(self) -> None:
         tmp = self.testdir()
         cover = self.cover()
@@ -256,6 +260,7 @@ class ImportMergeTest(TestCase):
         std = sh(F"{cover} {execs} -v time_from", cwd=tmp)
         logg.log(EXEC, ">>\n%s", std.err)
         self.rm_testdir()
+
     def test_020(self) -> None:
         tmp = self.testdir()
         cover = self.cover()
@@ -264,6 +269,7 @@ class ImportMergeTest(TestCase):
         std = sh(F"{cover} {execs} -v commit_from", cwd=tmp)
         logg.log(EXEC, ">>\n%s", std.err)
         self.rm_testdir()
+
     def test_100(self) -> None:
         """ import to empty repo"""
         git = F"{GIT} {RUN}"
@@ -505,6 +511,7 @@ class ImportMergeTest(TestCase):
         wants = {"world.txt": ["again"], }
         self.assertEqual(wants, files)
         self.rm_testdir()
+
     def test_130(self) -> None:
         """ import to empty repo - rename into subdir - show as --merge"""
         py = F"{PYTHON}"
@@ -588,6 +595,7 @@ class ImportMergeTest(TestCase):
         wants = {"travel/world.txt": ["again"], }
         self.assertEqual(wants, files)
         self.rm_testdir()
+
     def test_150(self) -> None:
         """ import to empty repo - with third commit -- replaceauthor B"""
         py = F"{PYTHON}"
@@ -672,6 +680,7 @@ class ImportMergeTest(TestCase):
         wants = {"world.txt": ["again"], }
         self.assertEqual(wants, files)
         self.rm_testdir()
+
     def test_160(self) -> None:
         """ import to empty repo - with third commit - skip user@B"""
         py = F"{PYTHON}"
@@ -841,6 +850,7 @@ class ImportMergeTest(TestCase):
         wants = {"world.txt": ["again"], }
         self.assertEqual(wants, files)
         self.rm_testdir()
+
     def test_180(self) -> None:
         """ import to empty repo - .. - skip subject B - try as --merge"""
         py = F"{PYTHON}"
@@ -925,6 +935,7 @@ class ImportMergeTest(TestCase):
         wants = {"world.txt": ["again"], }
         self.assertEqual(wants, files)
         self.rm_testdir()
+
     def test_190(self) -> None:
         """ import to empty repo - .. - skip subject again - try as --merge"""
         py = F"{PYTHON}"
@@ -1372,6 +1383,7 @@ class ImportMergeTest(TestCase):
         wants = {"travel/world.txt": ["again"], 'LICENSE': ['OK']}
         self.assertEqual(wants, files)
         self.rm_testdir()
+
     def test_250(self) -> None:
         """ import to non-empty repo - with third commit"""
         py = F"{PYTHON}"
@@ -1656,6 +1668,7 @@ class ImportMergeTest(TestCase):
         wants = {"world.txt": ["again"], 'LICENSE': ['OK']}
         self.assertEqual(wants, files)
         self.rm_testdir()
+
     def test_280(self) -> None:
         """ import to non-empty repo - ... - skipsubject B - try as --merge"""
         py = F"{PYTHON}"
@@ -1750,6 +1763,7 @@ class ImportMergeTest(TestCase):
         wants = {"world.txt": ["again"], 'LICENSE': ['OK']}
         self.assertEqual(wants, files)
         self.rm_testdir()
+
     def test_290(self) -> None:
         """ import to non-empty repo - ... - skipsubject again - try as --merge"""
         py = F"{PYTHON}"
@@ -1842,6 +1856,7 @@ class ImportMergeTest(TestCase):
         wants = {"world.txt": ["hello"], 'LICENSE': ['OK']}
         self.assertEqual(wants, files)
         self.rm_testdir()
+
     def test_300(self) -> None:
         """ import to empty repo - with third repo"""
         py = F"{PYTHON}"
@@ -1944,6 +1959,7 @@ class ImportMergeTest(TestCase):
         wants = {"world.txt": ["again"], }
         self.assertEqual(wants, files)
         self.rm_testdir()
+
     def test_310(self) -> None:
         """ import to empty repo - with third repo - with --merge"""
         py = F"{PYTHON}"
@@ -2046,6 +2062,7 @@ class ImportMergeTest(TestCase):
         wants = {"world.txt": ["again"], }
         self.assertEqual(wants, files)
         self.rm_testdir()
+
     def test_320(self) -> None:
         """ import to empty repo - with third repo - with --merge"""
         py = F"{PYTHON}"
@@ -2152,6 +2169,7 @@ class ImportMergeTest(TestCase):
         wants = {"world.txt": ["wonderful"], }
         self.assertEqual(wants, files)
         self.rm_testdir()
+
     def test_330(self) -> None:
         """ import to empty repo - with third repo - with --merge"""
         py = F"{PYTHON}"
@@ -2260,6 +2278,7 @@ class ImportMergeTest(TestCase):
         wants = {"world.txt": ["again"], }
         self.assertEqual(wants, files)
         self.rm_testdir()
+
     def test_400(self) -> None:
         """ import to empty repo - with third commit - and update fourth commit --into"""
         py = F"{PYTHON}"
@@ -2372,6 +2391,7 @@ class ImportMergeTest(TestCase):
         wants = {"world.txt": ["updated"], }
         self.assertEqual(wants, files)
         self.rm_testdir()
+
     def test_420(self) -> None:
         """ import to empty repo - four commits - with update --into --import"""
         py = F"{PYTHON}"
@@ -2477,6 +2497,7 @@ class ImportMergeTest(TestCase):
         wants = {"world.txt": ["updated"], }
         self.assertEqual(wants, files)
         self.rm_testdir()
+
     def test_430(self) -> None:
         """ import to empty repo - check historylog - with update --into --import"""
         py = F"{PYTHON}"
@@ -2588,6 +2609,7 @@ class ImportMergeTest(TestCase):
         wants = {"world.txt": ["updated"], }
         self.assertEqual(wants, files)
         self.rm_testdir()
+
     def test_450(self) -> None:
         """ import to empty repo - with third commit - and update fourth commit OFFLINE"""
         py = F"{PYTHON}"
@@ -2708,7 +2730,8 @@ class ImportMergeTest(TestCase):
         self.rm_testdir()
 
     def test_999(self) -> None:
-        if not COVER: self.skipTest("no --cover enabled")
+        if not COVER:
+            self.skipTest("no --cover enabled")
         merge = fs.relpath(MERGE, TESTDIR)
         coverage = F"{PYTHON} -m coverage"
         std = sh(F"{coverage} combine *.coverage", cwd=TESTDIR)
@@ -2716,9 +2739,10 @@ class ImportMergeTest(TestCase):
         std = sh(F"{coverage} report {merge}", cwd=TESTDIR)
         print(std.out)
 
+
 if __name__ == "__main__":
     # unittest.main()
-    from optparse import OptionParser # pylint: disable=deprecated-module
+    from optparse import OptionParser  # pylint: disable=deprecated-module
     cmdline = OptionParser("%s test...")
     cmdline.add_option("-v", "--verbose", action="count",
                        default=0, help="more verbose logging")
