@@ -11,13 +11,13 @@
 * `make uns` # make uinstall
 * `make version`
   * git commit -m v...
-* `make inst
+* `make ins`
 * `make show`
 * `make uns`
 * `git push` 
 * wait for gitlab-ci / github-workflows to finish
+* `make pkg`
+   * twine...
 * `make tag`
   * git tag v..... 
-* `make build`
-   * twine...
 * `git push --tags`
