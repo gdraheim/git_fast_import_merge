@@ -13,9 +13,6 @@ FOR=today
 default: nam ver
 
 PY39=3
-ifeq ("$(wildcard /usr/bin/python3.13)","/usr/bin/python3.13")
-  PY39=3.13
-endif
 ifeq ("$(wildcard /usr/bin/python3.12)","/usr/bin/python3.12")
   PY39=3.12
 endif
