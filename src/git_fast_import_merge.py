@@ -542,6 +542,8 @@ def _main_() -> int:
     cmdline.add_option("-^", "--quiet", action="count", default=0,
                        help="less logging infos")
     cmdline.add_option("-@", dest="append", metavar=OPT, action="append", default=[])
+    cmdline.add_option("-V", "--version", action="count", default=0,
+                       help="show version info")
     cmdline.add_option("-L", "--historylog", action="store_true", default=False,
                        help="log the generated history (for checking)")
     cmdline.add_option("-F", "--historyfile", metavar="F", default="",
@@ -572,6 +574,10 @@ def _main_() -> int:
                        help="generate into file instead of stdout")
     opt, args = cmdline.parse_args()
     basicConfig(level=max(0, WARNING - 5 * opt.verbose + 10 * opt.quiet))
+    if opt.version:
+        name = os.path.splitext(os.path.basename(__file__))[0]
+        print(name, __version__)
+        return 0
     for __optionsfile in (opt.append or [OPT]):
         if os.path.exists(os.path.expanduser(__optionsfile)):
             with open(os.path.expanduser(__optionsfile)) as f:
