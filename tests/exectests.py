@@ -3,7 +3,7 @@
 # pylint: disable=redefined-outer-name,broad-exception-caught,dangerous-default-value,unused-variable,redefined-builtin,bare-except,unspecified-encoding,missing-module-docstring
 
 __copyright__ = "(C) 2023-2024 Guido Draheim, licensed under the Apache License 2.0"""
-__version__ = "1.0.1321"
+__version__ = "1.1.1321"
 
 from typing import Optional, Any, List, Union, Iterator, NamedTuple, Mapping, Dict
 
@@ -37,7 +37,7 @@ GIT = "git"
 RUN = "--no-pager"
 PYTHON = "python3"
 COVER = 0
-MERGE = "git_fast_import_merge.py"
+MERGE = "src/git_fast_import_merge.py"
 TESTDIR = "tmp"
 COMMITHASH = "[0-9a-h][0-9a-h][0-9a-h][0-9a-h][0-9a-h][0-9a-h][0-9a-h][0-9a-h][0-9a-h][0-9a-h][0-9a-h][0-9a-h][0-9a-h][0-9a-h]"
 TIMEFORMAT = "[1-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9][T.][0-9][0-9]:[0-9][0-9](:[0-9][0-9])?(Z|.*[+-][0-9][0-9])"

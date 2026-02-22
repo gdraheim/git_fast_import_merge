@@ -1,0 +1,69 @@
+# __version__
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "git_fast_import_merge"
+version = "1.1.1321"
+description = "Offline merge for git fast-import files"
+readme = { "file" = "README", content-type = "text/markdown" }
+license = "Apache-2.0"
+license-files = [ "LICENSE"]
+authors = [ { name = "Guido U. Draheim", "email" = "Guido.Draheim@gmx.de" }]
+classifiers = [
+   "Operating System :: POSIX :: Linux",
+   "Environment :: Console",
+   "Programming Language :: Python :: 3",
+   "Programming Language :: Python :: 3.9",
+   "Typing :: Typed"
+]
+
+[project.optional-dependencies]
+dev = [ "build" ]
+
+[project.urls]
+homepage = "https://github.com/gdraheim/git_fast_import_merge"
+repository = "https://github.com/gdraheim/git_fast_import_merge.git"
+issues = "https://github.com/gdraheim/git_fast_import_merge/issues"
+
+
+[project.scripts]
+git_fast_import_merge = "git_fast_import_merge.git_fast_import_merge:_main_"
+
+[tool.setuptools]
+include-package-data = false
+package-dir = {"git_fast_import_merge" = "src"}
+
+
+[tool.pycodestyle]
+max-line-length = 127
+ignore = "E301,E302,E305,E306,E701,E704"
+# E301 Add missing blank line. (expected 1 blank line, found 0)
+# E302 Add missing 2 blank lines. (expected 2 blank lines, found 0)
+# E305 - (expected 2 blank lines after end of function or class)
+# E306 - (expected 1 blank line before a nested definition)
+# E701 Put colon-separated compound statement on separate lines. (multiple statements on one line (colon))
+# E704 Fix multiple statements on one line def (multiple statements on one line (semicolon))
+
+[tool.mypy]
+## strict = true # not allowed in setup.cfg
+warn_unused_configs = true
+disallow_subclassing_any = true
+disallow_any_generics = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true 
+disallow_incomplete_defs = true 
+check_untyped_defs = true
+disallow_untyped_decorators = true 
+no_implicit_optional = true 
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_return_any = true
+## extra:
+disallow_any_unimported = true
+# disallow_any_expr = true
+disallow_any_decorated = true
+#? disallow_any_explicit = true

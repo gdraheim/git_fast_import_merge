@@ -1,10 +1,10 @@
 #! /usr/bin/env python3
 
 __copyright__ = "(C) 2023-2024 Guido Draheim, licensed under the Apache License 2.0"""
-__version__ = "1.0.1321"
+__version__ = "1.1.1321"
 
 from unittest import main, TestCase
-import git_fast_import_merge as app
+from src import git_fast_import_merge as app
 
 tz1 = app.TimeZone(app.Plus(hours=1))
 utc = app.TimeZone.utc

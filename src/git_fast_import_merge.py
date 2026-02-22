@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 # pylint: disable=missing-class-docstring,missing-function-docstring,line-too-long,consider-using-f-string
-# pylint: disable=unspecified-encoding,global-statement
+# pylint: disable=unspecified-encoding,global-statement,invalid-name
 """:
 use multiple archive files from 'git fast-export' and merge them into a single
 archive file for 'git fast-import' ordering the changes by date. Optionally,
@@ -10,7 +10,7 @@ the output archive file which makes for a history as coming from multiple branch
 
 
 __copyright__ = "(C) 2023-2024 Guido Draheim, licensed under the Apache License 2.0"""
-__version__ = "1.0.1321"
+__version__ = "1.1.1321"
 
 from typing import List, NamedTuple, Optional, Dict
 from logging import getLogger, basicConfig, addLevelName, ERROR, WARNING, INFO, DEBUG
@@ -530,10 +530,11 @@ def git_fast_import(repo: str, fastimport: str) -> str:
     return check_output(cmd, cwd=fs.abspath(repo), shell=True).decode("utf-8")
 
 
-if __name__ == "__main__":
+def _main_() -> int:
+    global HEAD, DATE, SUBDIR, MERGES, BRANCH, OUTPUT, REPLACEAUTHORS, SKIPAUTHORS, SKIPSUBJECT, COMMITTER
     XDG_CONFIG_HOME = os.environ.get("XDG_CONFIG_HOME", "~/.config")
     OPT = fs.join(XDG_CONFIG_HOME, fs.basename(__file__).replace(".py", ".append.opt"))
-    from optparse import OptionParser # pylint: disable=deprecated-module # not anymore
+    from optparse import OptionParser # pylint: disable=deprecated-module,import-outside-toplevel # not anymore
     cmdline = OptionParser("%prog [files.fi ..]", description=__doc__)
     cmdline.formatter.max_help_position = 33
     cmdline.add_option("-v", "--verbose", action="count", default=0,
@@ -607,3 +608,8 @@ if __name__ == "__main__":
             for hist in reversed(HISTORY):
                 logg.log(DONE, " %s %s: %s", hist.author,
                          hist.timespec, hist.comment)
+    return 0
+
+if __name__ == "__main__":
+    sys.exit(_main_())
+    

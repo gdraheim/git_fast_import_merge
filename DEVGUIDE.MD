@@ -5,19 +5,19 @@
 * `make check`
 * `make coverage`
 * update README.md mit coverage & testnumber
-* `make build`
-* `make install`
+* `make pkg` # running -m build
+* `make ins` # make install
 * `make show`
-* `make uninstall`
+* `make uns` # make uinstall
 * `make version`
   * git commit -m v...
-* `make install`
+* `make inst
 * `make show`
-* `make uninstall`
+* `make uns`
 * `git push` 
-* wait for github workflows to finish
+* wait for gitlab-ci / github-workflows to finish
 * `make tag`
   * git tag v..... 
-* `git push --tags`
 * `make build`
    * twine...
+* `git push --tags`
