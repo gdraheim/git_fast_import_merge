@@ -1,6 +1,16 @@
+stages:
+  - test
+  - deploy
+
+variables:
+  PY: "3.11"
+
 python3-tests:
   stage: test
-  image: $CI_REGISTRY/gdraheim/ci_image_python3
+  image: $CI_REGISTRY/gdraheim/ci_image_python3:$PY
+  before_script:
+    - git config --global user.email "superman@example.test"
+    - git config --global user.name "Clark Kent Superman"
   script:
     - make style || true
     - make type
@@ -9,10 +19,19 @@ python3-tests:
   artifacts:
     reports:
       junit: "TEST-*.xml"
+  rules:
+    - if: $CI_COMMIT_TITLE =~ /pkg/
+      when: never
+    - if: $CI_COMMIT_BRANCH
+      when: on_success
+    - when: manual
 
 python3-coverage:
-  stage: deploy
-  image: $CI_REGISTRY/gdraheim/ci_image_python3
+  stage: test
+  image: $CI_REGISTRY/gdraheim/ci_image_python3:$PY
+  before_script:
+    - git config --global user.email "superman@example.test"
+    - git config --global user.name "Clar Kent Superman"
   script:
     - make coverage
     - find . -name '*.xml'
@@ -21,8 +40,78 @@ python3-coverage:
       coverage_report:
         coverage_format: cobertura
         path: tmp/coverage.xml
+  needs:
+    - python3-tests
   rules:
-    - when: on_success
+    - if: $CI_COMMIT_TITLE =~ /pkg/
+      when: never
+    - if: $CI_COMMIT_BRANCH
+      when: on_success
+    - when: manual
 
+python3-package:
+  stage: deploy
+  image: $CI_REGISTRY/gdraheim/ci_image_python3:$PY
+  variables:
+      TWINE_USERNAME: $CI_DEPLOY_USER 
+      TWINE_PASSWORD: $CI_DEPLOY_PASSWORD
+      REPO: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi"
+  before_script:
+    - |
+      [ -n "$CI_DEPLOY_USER" ] || \
+      echo "WARNING: need gitlab-deploy-token: Project > Settings > Repository > Deploy-Token" >&2
+      # CI_REGISTRY_USER and CI_REGISTRY_PASSWORD are predefined - not so for CI_PACKAGE_*
+  script:
+    - |
+      python3 -m pip list
+      today=$(date +%Y%m%d)
+      grep "$today" pyproject.toml || sed -i -e "/^version *=/s/\" *\$/.$today\"/" pyproject.toml
+      grep ^version pyproject.toml
+      grep "$today" pyproject.toml
+      make pkg
+      pkgname=$(make -s option=--package-name nam)
+      pkgversion=$(make -s option=--package-version ver)
+      pkgproject="--project-id $CI_PROJECT_ID"
+      export SERVER_URL=$CI_SERVER_URL
+      set -x
+      old=$(gitlab project-package list $pkgproject $pkgname $pkgversion | sed -e '/^id *:/!d' -e 's/.*: *//' -e q)
+      [ -z "$old" ] || gitlab project-package delete $pkgproject --id "$old"
+      python3 -m twine upload --verbose --repository-url "$REPO" dist/*
+  rules:
+    - if: $CI_COMMIT_BRANCH
+      when: on_success
+    - when: never
 
-
+docker-pip3-install:
+  stage: deploy
+  image: docker:cli
+  services:
+    - docker:dind
+  variables:
+      DOCKER_LIBRARY: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/library
+      REPO2: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi/simple"
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - |
+      # RUN=$(make -s name)
+      # PKG=$(make -s nam)
+      RUN=$(sed -e '/^name *=/!d' -e 's/.*= *"//' -e 's/".*//' -e q pyproject.toml)
+      PKG=$(sed -e '/^name *=/!d' -e 's/.*= *"//' -e 's/".*//' -e 's/_/-/g' -e q pyproject.toml)
+      TAG=`basename "$CI_COMMIT_BRANCH"`
+      [ "$CI_DEFAULT_BRANCH" == "$TAG" ] && TAG="latest"
+      { echo "FROM python:$PY" \
+      ; echo "RUN set -x; python3 -m pip install -i "$REPO2" $PKG" \
+      ; echo "RUN set -x; python3 -m pip show --files $PKG" \
+      ; echo "RUN set -x; python3 -m $RUN --version" \
+      ; } > Dockerfile
+      docker build --pull -t "$CI_REGISTRY_IMAGE:$TAG" .
+      docker push "$CI_REGISTRY_IMAGE:$TAG"
+  after_script:
+      - docker logout $CI_REGISTRY
+  needs:
+    - python3-package
+  rules:
+    - if: $CI_COMMIT_BRANCH
+      when: on_success
+    - when: never
